@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">"Show You Nice"</string>
+
+    <!-- base http url -->
+    <string name="base_http">"http://172.22.198.198/SkyService/rest/recommend"</string> 
+</resources>

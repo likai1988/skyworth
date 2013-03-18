@@ -1,0 +1,23 @@
+package com.skyworth.http.identifier;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import com.skyworth.entity.Program;
+import com.skyworth.http.BaseHttp;
+
+public final class ProgramHttp extends BaseHttp<ArrayList<Program>> {
+
+    private static final String TAG = "ProgramHttp";
+    
+    public ProgramHttp(String uri) {
+        mUri = uri;
+    }
+
+    @Override
+    protected ArrayList<Program> parse(InputStream is) {
+        
+        return null;
+    }
+
+}

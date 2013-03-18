@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/itemview" >
+    <FrameLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <com.skyworth.httputil.imageloadutil.RecyclingImageView 
+        	android:id="@+id/poster"
+        	android:layout_width="fill_parent"
+        	android:layout_height="fill_parent"
+        	android:src="@drawable/thegrandmaster"
+        	android:scaleType="fitXY"/>
+    	<TextView
+        	android:id="@+id/moviename"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:background="#70404040"
+        	android:gravity="center"
+        	android:ellipsize="marquee"
+        	android:marqueeRepeatLimit="marquee_forever"
+        	android:singleLine="true"
+        	android:textColor="#FFFFFF"/>
+    </FrameLayout>
+</LinearLayout>

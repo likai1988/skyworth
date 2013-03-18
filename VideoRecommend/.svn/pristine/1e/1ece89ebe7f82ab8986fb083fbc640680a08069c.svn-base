@@ -1,0 +1,79 @@
+package com.skyworth.recommend;
+
+import java.util.List;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.skyworth.entity.provider.ProgramProvider;
+import com.skyworth.httputil.imageloadutil.ImageFetcher;
+import com.skyworth.httputil.imageloadutil.RecyclingImageView;
+import com.skyworth.videorecommend.R;
+
+public class GridViewItemAdapter extends BaseAdapter{
+	private Context mContext;
+	private ImageFetcher mImageFetcher;
+	private List<String> mUrls = null;
+	private ProgramProvider mProgramProvider;
+	
+	public GridViewItemAdapter(Context context,ProgramProvider programProvider,ImageFetcher imageFetcher){
+		mContext = context;
+		//mUrls = urls;
+		mImageFetcher = imageFetcher;
+		
+		mProgramProvider = programProvider;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mProgramProvider.getProgramList("dsj").size();
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		View view = View.inflate(mContext, R.layout.grid_item, null);
+		LinearLayout mLayout = (LinearLayout)view.findViewById(R.id.itemview);
+		
+		RecyclingImageView posterViews = (RecyclingImageView)mLayout.findViewById(R.id.poster);
+		TextView videoNames = (TextView)mLayout.findViewById(R.id.moviename);
+		//posterViews.setImageResource(thePosterIds[position]);
+		
+		Log.i("!!!!!",position+"");
+		videoNames.setText(mProgramProvider.findProgramByPosition(position, "dsj").mTitle);
+		mImageFetcher.loadImage(mProgramProvider.findProgramByPosition(position, "dsj").mThumbUrl, posterViews); 
+		//
+		return mLayout;
+	}
+	
+	private Integer[] thePosterIds = {
+			R.drawable.jackreacher , R.drawable.love911 ,R.drawable.jackreacher,	
+			R.drawable.ripplesofdesire,R.drawable.jackreacher,R.drawable.jackreacher,
+			R.drawable.jackreacher,R.drawable.jackreacher,R.drawable.jackreacher,
+			R.drawable.jackreacher
+	};		
+	
+/*	private String[] names = {
+			"电影名1" , "电影名2" ,"电影名3" ,
+			"电影名3","电影名3","电影名3",
+			"电影名3","电影名3","电影名3"
+	};*/
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+}

@@ -1,0 +1,54 @@
+package com.skyworth.http;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import android.util.Log;
+
+import com.skyworth.videorecommend.BuildConfig;
+
+public abstract class BaseHttp<E> implements Runnable {
+    private static final String TAG = "BaseHttp";
+    /**
+     * http request url address
+     */
+    protected String mUri = null;
+
+    @Override
+    public void run() {
+        sendRequest();
+    }
+
+    public E sendRequest() {
+        InputStream is = null;
+        try {
+            URL url = new URL(mUri);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod(HttpUtil.METHOD_GET);
+            conn.setDoInput(true);
+            conn.connect();
+            int resultCode = conn.getResponseCode();
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "response code: " + resultCode);
+            }
+            if (200 == resultCode) {
+                is = conn.getInputStream();
+                return parse(is);
+            }
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "== MalformedURLException ==", e);
+            return null;
+        } catch (IOException e) {
+            Log.e(TAG, "open connection fail or get inputstream error", e);
+            return null;
+        }
+        return null;
+    }
+
+    protected abstract E parse(InputStream is);
+}

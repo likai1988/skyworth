@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <ProgressBar 
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <TextView 
+        android:id="@+id/nonettext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="没有网络链接"
+        android:layout_gravity="center"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        android:visibility="invisible"
+        android:id="@+id/showlayout" >"
+
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp" >
+
+            <ListView
+                android:id="@+id/mylist"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:divider="#B0B0B0"
+                android:dividerHeight="1dp" >
+            </ListView>
+        </RelativeLayout>
+
+        
+    </RelativeLayout>
+</FrameLayout>

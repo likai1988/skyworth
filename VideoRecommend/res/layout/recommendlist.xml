@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="#383838">
+        <TextView 
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="#FF3030"
+            android:text="让你好看"
+            android:textSize="15dp"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            android:gravity="center"/>
+        <ImageButton 
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#383838"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_launcher"/>
+        <View
+            android:id="@+id/line0"
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@+id/login"
+            android:background="#aa11264f" />
+        <View
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@id/line0"
+            android:background="#009ad6" />
+        <ImageButton 
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#383838"
+            android:layout_toLeftOf="@+id/line0"
+            android:layout_centerVertical="true"
+            android:src="@drawable/toolbar_find1"/>
+        
+        
+    </RelativeLayout>
+    <com.skyworth.recommend.MyListView 
+        android:id="@+id/recommendlist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#E8E8E8"
+        android:dividerHeight="6dp"/>
+</LinearLayout>

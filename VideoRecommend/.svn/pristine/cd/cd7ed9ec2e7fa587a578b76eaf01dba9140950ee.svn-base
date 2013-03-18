@@ -1,0 +1,105 @@
+package com.skyworth.recommend;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.SearchView;
+
+import com.skyworth.activityutil.ActionBarActivity;
+import com.skyworth.httputil.HttpPostDemo;
+import com.skyworth.notification.NotificationService;
+import com.skyworth.videorecommend.R;
+
+public class FavouriteVideoChoseActivity extends ActionBarActivity{
+	private GridViewItemAdapter adapter;
+	private Button button;
+	private Button get;
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		getMenuInflater().inflate(R.menu.menu_recommend,menu);
+		SearchView searchview = (SearchView)menu.findItem(R.id.menu_search).getActionView();
+		searchview.setOnSearchClickListener(new SearchClickListener());
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	class SearchClickListener implements OnClickListener{
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			Log.i("!!!","跳转到搜索结果页");
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()){
+		case android.R.id.home:
+			Log.i("!!!","我点了返回");
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.favourite);
+		adapter = new GridViewItemAdapter(this);
+		GridView gridview = (GridView)findViewById(R.id.videochose);
+		gridview.setAdapter(adapter);
+		
+		button = (Button)findViewById(R.id.confirm);
+		button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(FavouriteVideoChoseActivity.this, HttpPostDemo.class);
+				startActivity(intent);
+			}
+		});
+		
+		get = (Button)findViewById(R.id.get);
+		get.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				/*Intent intent = new Intent();
+				intent.setClass(FavouriteVideoChoseActivity.this, HttpGetDemo.class);
+				startActivity(intent);*/
+				Log.i("1111","111");
+				Intent service = new Intent(FavouriteVideoChoseActivity.this, NotificationService.class);
+				startService(service);
+			}
+		});
+		
+		gridview.setOnItemClickListener(new ItemClickListener());
+	}
+	
+	class ItemClickListener implements OnItemClickListener{
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			Log.i("FVCA","onItemClick "+" arg2 = "+arg2+" arg3 = "+arg3);
+			Intent intent = new Intent();
+			intent.setClass(FavouriteVideoChoseActivity.this,RecommendListActivity.class);
+			startActivity(intent);
+		}
+	}
+}

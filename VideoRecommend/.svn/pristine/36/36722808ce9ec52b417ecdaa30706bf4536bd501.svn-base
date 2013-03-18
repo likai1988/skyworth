@@ -1,0 +1,99 @@
+package com.skyworth.recommend;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.skyworth.httputil.imageloadutil.ImageFetcher;
+import com.skyworth.videointrolistactivity.VideoIntroListActivity;
+import com.skyworth.videorecommend.R;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.LinearLayout.LayoutParams;
+
+public class RecommendListAdapter extends BaseAdapter{
+	private LayoutInflater inflater;
+	private GridView mGridView = null;
+	private GridViewItemAdapter adapter;
+	private Context mContext;
+	private List<String> urls = null;
+	private ImageFetcher mImageFetcher;
+	
+	
+	public RecommendListAdapter(Context context,ImageFetcher imageFetcher){
+		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mContext = context;
+		mImageFetcher = imageFetcher;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return 4;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		        convertView = inflater.inflate(R.layout.recommendlist_item, null);
+		        
+		        
+		        urls = new ArrayList<String>();
+		        urls.add("http://photocdn.sohu.com/20101200/vrsab1000271.jpg");
+		        urls.add("http://i.gtimg.cn/qqlive/img/jpgcache/files/qqvideo/o/okatcdeu8wepze2_l.jpg");
+		        urls.add("http://www.iqiyi.com/dianying/20120913/276bef1387d24d0a.html");
+		        urls.add("http://i.gtimg.cn/qqlive/img/jpgcache/files/qqvideo/i/isdck90a06zvxza_l.jpg");
+		        urls.add("http://pic0.qiyipic.com/thumb/20130130/a308166_160_90.jpg");
+		        urls.add("http://photocdn.sohu.com/20130122/vrsb725025.jpg");
+		        urls.add("http://res.mfs.ykimg.com/050D000050D9458A97927359F80BD232");
+		        urls.add("http://i.gtimg.cn/qqlive/img/jpgcache/files/qqvideo/k/kqw4s57v8doj3er_l.jpg");
+		        urls.add("http://res.mfs.ykimg.com/050D000050BD88D697927310C206C914");
+		        adapter = new GridViewItemAdapter(mContext,urls,mImageFetcher);
+		        
+		        mGridView = (GridView)convertView.findViewById(R.id.regridview);
+		        mGridView.setAdapter(adapter);
+		        LayoutParams params = new LayoutParams(adapter.getCount()*(150+10),200);
+		        mGridView.setLayoutParams(params);
+		        mGridView.setColumnWidth(150);
+		        mGridView.setHorizontalSpacing(10);
+		        mGridView.setStretchMode(GridView.NO_STRETCH);
+		        mGridView.setNumColumns(adapter.getCount());
+		        mGridView.setOnItemClickListener(new ItemClickListener());
+		        return convertView;
+	}
+	
+	public class ItemClickListener implements OnItemClickListener{
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			String url = "http://172.22.198.198/SkyService/rest/content/"+(arg2+1);
+			Intent intent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putString("URL",url);
+			intent.putExtras(bundle);
+			intent.setClass(mContext, VideoIntroListActivity.class);
+			mContext.startActivity(intent);
+		}
+	}
+}

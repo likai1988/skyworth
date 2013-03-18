@@ -1,0 +1,84 @@
+package com.skyworth.httputil.imageloadprovider;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import com.skyworth.httputil.JsonUtil;
+
+public class ImageUrls {
+    private final static String TAG = "ImageUrls";
+    private static JSONObject object;
+    private static Handler handler;
+    private static final int MSG_SUCCESS = 1;
+    private static final int MSG_FAILURE = 0;
+    
+    public static ArrayList<String> urls = new ArrayList<String>(1);
+    
+    public static void initUrls(){
+        Log.i(TAG,"initUrls");
+        Thread thread = new Thread(runnable);
+        thread.start();
+        getUrls();
+    }
+    
+    private static void getUrls(){
+        Log.i(TAG,"getUrls");
+        handler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch(msg.what){
+                case MSG_SUCCESS:
+                    String string = new String(msg.obj.toString());
+                    try {
+                        getUrlList(string);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                case MSG_FAILURE:
+                    return;
+                }
+            }
+        };
+    }
+    
+    private static List<String> getUrlList(String string) throws JSONException{
+        Log.i(TAG,"getUrlList");
+        JSONObject obj = new JSONObject(string);
+        JSONArray array = obj.getJSONArray("list");
+        Log.i("array",array.toString());
+        List<String> urls = new ArrayList<String>();
+        for(int i=0;i<array.length();i++){
+            urls.add(array.getJSONObject(i).getString("thumb"));
+        }
+        Log.i("urls",""+urls);
+        return urls;
+    }
+    
+    static Runnable runnable = new Runnable(){
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            Log.i(TAG,"getUrlList");
+            try {
+                object = JsonUtil.getJsonObject("http://172.22.198.198/SkyService/rest/recommend?category=dy");
+                Log.i("1111",object.toString());
+                handler.obtainMessage(MSG_SUCCESS, object).sendToTarget();
+            } catch (IOException e) {
+                e.printStackTrace();
+                handler.obtainMessage(MSG_FAILURE);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                handler.obtainMessage(MSG_FAILURE);
+            } 
+        }
+    };
+}
